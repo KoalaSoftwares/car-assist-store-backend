@@ -1,13 +1,38 @@
 package com.una.carassiststorebackend.entities;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
+@Entity
+@Table(name = "tb_order")
 public class Order {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @NotBlank
+    @Column(length = 100)
+    @Size(min = 3, max = 100)
     private String productId;
+
+    @NotBlank
+    @Column(length = 100)
+    @Size(min = 3, max = 100)
     private BigDecimal totalPrice;
+
+    @NotBlank
+    @Column(length = 100)
+    @Size(min = 3, max = 100)
     private Date date;
+
+    @NotBlank
+    @Column(length = 100)
+    @Size(min = 3, max = 100)
     private String paymentType;
 
     public Order() { super(); }
@@ -19,11 +44,11 @@ public class Order {
         this.paymentType = paymentType;
     }
 
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -57,5 +82,18 @@ public class Order {
 
     public void setPaymentType(String paymentType) {
         this.paymentType = paymentType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id) && Objects.equals(productId, order.productId) && Objects.equals(totalPrice, order.totalPrice) && Objects.equals(date, order.date) && Objects.equals(paymentType, order.paymentType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, productId, totalPrice, date, paymentType);
     }
 }
