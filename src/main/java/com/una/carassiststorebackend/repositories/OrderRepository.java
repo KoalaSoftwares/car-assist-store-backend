@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface OrderRepository extends CrudRepository<Order, Long> {
-    List<Order> findBy(BigDecimal totalPrice);
+    List<Order> findByTotalPrice(BigDecimal totalPrice);
 
     List<Order> findByPaymentType(String paymentType);
 
