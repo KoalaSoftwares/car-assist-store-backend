@@ -34,7 +34,8 @@ public class OrderTests {
     @Autowired
     private OrderRepository repository;
 
-    @Test public void test1Creation() throws ParseException {
+    @Test
+    public void test1Creation() throws ParseException {
         LOGGER.info("Creating objects...");
         Order o1 = new Order(BigDecimal.valueOf(213.34), df.parse("05/06/2023"), "Debit");
         repository.save(o1);

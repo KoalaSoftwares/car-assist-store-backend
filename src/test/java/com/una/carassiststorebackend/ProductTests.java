@@ -5,6 +5,7 @@ import com.una.carassiststorebackend.entities.Product;
 import com.una.carassiststorebackend.repositories.OrderRepository;
 import com.una.carassiststorebackend.repositories.ProductRepository;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -21,8 +22,6 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,7 +33,8 @@ public class ProductTests {
     @Autowired
     private ProductRepository repository;
 
-    @Test public void test1Creation() throws  ParseException {
+    @Test
+    public void test1Creation() throws  ParseException {
         LOGGER.info("Creating objects...");
         Product p1 = new Product("Wax", BigDecimal.valueOf(32.45), "Wax to polish car");
         repository.save(p1);
