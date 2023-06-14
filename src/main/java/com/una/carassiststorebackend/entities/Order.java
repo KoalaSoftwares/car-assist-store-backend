@@ -16,29 +16,24 @@ public class Order {
     private Long id;
 
     @NotBlank
-    @Column(length = 100)
-    @Size(min = 3, max = 100)
+    @Column
     private String productId;
 
-    @NotBlank
-    @Column(length = 100)
-    @Size(min = 3, max = 100)
+    @Column
     private BigDecimal totalPrice;
 
-    @NotBlank
-    @Column(length = 100)
-    @Size(min = 3, max = 100)
+    @Column
     private Date date;
 
     @NotBlank
-    @Column(length = 100)
-    @Size(min = 3, max = 100)
+    @Column
     private String paymentType;
 
     public Order() { super(); }
 
-    public Order(BigDecimal totalPrice, Date date, String paymentType) {
+    public Order(String productId, BigDecimal totalPrice, Date date, String paymentType) {
         super();
+        this.productId = productId;
         this.totalPrice = totalPrice;
         this.date = date;
         this.paymentType = paymentType;

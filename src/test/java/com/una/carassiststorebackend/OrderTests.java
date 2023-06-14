@@ -35,15 +35,15 @@ public class OrderTests {
     private OrderRepository repository;
 
     @Test
-    public void test1Creation() throws ParseException {
+    public void test1Creation() throws ParseException, InterruptedException {
         LOGGER.info("Creating objects...");
-        Order o1 = new Order(BigDecimal.valueOf(213.34), df.parse("05/06/2023"), "Debit");
+        Order o1 = new Order("xyn", BigDecimal.valueOf(50.60), df.parse("05/06/2023"), "Debit");
         repository.save(o1);
 
-        Order o2 = new Order(BigDecimal.valueOf(564.66), df.parse("10/09/2023"), "Credit");
+        Order o2 = new Order("xyn2", BigDecimal.valueOf(50.69), df.parse("10/09/2023"), "Credit");
         repository.save(o2);
 
-        Order o3 = new Order(BigDecimal.valueOf(12.33), df.parse("30/12/2022"), "Cash");
+        Order o3 = new Order("xyn1", BigDecimal.valueOf(50.68), df.parse("30/12/2022"), "Cash");
         repository.save(o3);
 
         LOGGER.info("Searching all...");
@@ -55,7 +55,7 @@ public class OrderTests {
         LOGGER.info("Searching an object...");
         List<Order> result = repository.findByPaymentType("Credit");
         assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getTotalPrice(), BigDecimal.valueOf(564.66));
+        assertEquals(result.get(0).getTotalPrice(), BigDecimal.valueOf(50.69));
         LOGGER.info("Found: {}", result.get(0));
     }
 
