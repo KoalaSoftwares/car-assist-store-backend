@@ -1,7 +1,9 @@
 package com.una.carassiststorebackend;
 
 import com.una.carassiststorebackend.entities.Order;
+import com.una.carassiststorebackend.entities.Product;
 import com.una.carassiststorebackend.repositories.OrderRepository;
+import com.una.carassiststorebackend.repositories.ProductRepository;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
@@ -10,6 +12,7 @@ import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.FixMethodOrder;
@@ -33,17 +36,24 @@ public class OrderTests {
 
     @Autowired
     private OrderRepository repository;
+    @Autowired
+    private ProductRepository productRepository;
 
     @Test
-    public void test1Creation() throws ParseException, InterruptedException {
+    public void test1Creation() throws ParseException {
         LOGGER.info("Creating objects...");
-        Order o1 = new Order("xyn", BigDecimal.valueOf(50.60), df.parse("05/06/2023"), "Debit");
+        List<Product> products = new ArrayList<>();
+        Product product1 = new Product("Wax", BigDecimal.valueOf(32.45), "Wax to polish car", new ArrayList<>());
+        products.add(product1);
+        productRepository.save(product1);
+
+        Order o1 = new Order(BigDecimal.valueOf(50.60), df.parse("05/06/2023"), "Debit", products);
         repository.save(o1);
 
-        Order o2 = new Order("xyn2", BigDecimal.valueOf(50.69), df.parse("10/09/2023"), "Credit");
+        Order o2 = new Order(BigDecimal.valueOf(50.69), df.parse("10/09/2023"), "Credit", products);
         repository.save(o2);
 
-        Order o3 = new Order("xyn1", BigDecimal.valueOf(50.68), df.parse("30/12/2022"), "Cash");
+        Order o3 = new Order(BigDecimal.valueOf(50.68), df.parse("30/12/2022"), "Cash", products);
         repository.save(o3);
 
         LOGGER.info("Searching all...");

@@ -13,6 +13,7 @@ import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.FixMethodOrder;
@@ -36,13 +37,13 @@ public class ProductTests {
     @Test
     public void test1Creation() throws  ParseException {
         LOGGER.info("Creating objects...");
-        Product p1 = new Product("Wax", BigDecimal.valueOf(32.45), "Wax to polish car");
+        Product p1 = new Product("Blue Wax", BigDecimal.valueOf(33.45), "Blue Wax to polish car", new ArrayList<>());
         repository.save(p1);
 
-        Product p2 = new Product("Glass Cleaner", BigDecimal.valueOf(90.66), "Glass cleaner");
+        Product p2 = new Product("Glass Cleaner", BigDecimal.valueOf(90.66), "Glass cleaner", new ArrayList<>());
         repository.save(p2);
 
-        Product p3 = new Product("Plastic Restorers", BigDecimal.valueOf(12.33), "Plastic restorers");
+        Product p3 = new Product("Plastic Restorers", BigDecimal.valueOf(12.33), "Plastic restorers", new ArrayList<>());
         repository.save(p3);
 
         LOGGER.info("Searching all...");
@@ -52,9 +53,9 @@ public class ProductTests {
             LOGGER.info(product.toString());
         }
         LOGGER.info("Searching an object...");
-        List<Product> result = repository.findByName("Wax");
+        List<Product> result = repository.findByName("Blue Wax");
         assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getDescription(), "Wax to polish car");
+        assertEquals(result.get(0).getDescription(), "Blue Wax to polish car");
         LOGGER.info("Found: {}", result.get(0));
     }
 
@@ -71,12 +72,12 @@ public class ProductTests {
             LOGGER.info("Deleting order id = "+product.getId());
             repository.delete(product);
         }
-        result = repository.findByName("Wax");
+        result = repository.findByName("Blue Wax");
         for (Product product : result) {
             LOGGER.info("Deleting order id = "+product.getId());
             repository.delete(product);
         }
-        result = repository.findByName("Wax");
+        result = repository.findByName("Blue Wax");
         assertEquals(result.size(), 0);
         LOGGER.info("Delete success");
     }
