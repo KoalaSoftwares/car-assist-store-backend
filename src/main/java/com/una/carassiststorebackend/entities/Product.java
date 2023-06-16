@@ -2,9 +2,9 @@ package com.una.carassiststorebackend.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,26 +15,26 @@ public class Product {
     private Long id;
 
     @NotBlank
-    @Column(length = 100)
-    @Size(min = 3, max = 100)
+    @Column
     private String name;
 
-    @NotBlank
-    @Column(length = 100)
-    @Size(min = 3, max = 100)
+    @Column
     private BigDecimal price;
 
     @NotBlank
-    @Column(length = 100)
-    @Size(min = 3, max = 100)
+    @Column
     private String description;
 
+    @ManyToMany(mappedBy = "products")
+    private List<Order> orders;
+
     public Product() { super(); }
-    public Product(String name, BigDecimal price, String description) {
+    public Product(String name, BigDecimal price, String description, List<Order> orders) {
         super();
         this.name = name;
         this.price = price;
         this.description = description;
+        this.orders = orders;
     }
 
     public Long getId() {
@@ -69,16 +69,24 @@ public class Product {
         this.description = description;
     }
 
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(price, product.price) && Objects.equals(description, product.description);
+        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(price, product.price) && Objects.equals(description, product.description) && Objects.equals(orders, product.orders);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price, description);
+        return Objects.hash(id, name, price, description, orders);
     }
 }

@@ -2,10 +2,10 @@ package com.una.carassiststorebackend.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,10 +14,6 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @NotBlank
-    @Column
-    private String productId;
 
     @Column
     private BigDecimal totalPrice;
@@ -29,14 +25,22 @@ public class Order {
     @Column
     private String paymentType;
 
+    @ManyToMany
+    @JoinTable(
+            name = "order_product",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private List<Product> products;
+
     public Order() { super(); }
 
-    public Order(String productId, BigDecimal totalPrice, Date date, String paymentType) {
+    public Order(BigDecimal totalPrice, Date date, String paymentType, List<Product> products) {
         super();
-        this.productId = productId;
         this.totalPrice = totalPrice;
         this.date = date;
         this.paymentType = paymentType;
+        this.products = products;
     }
 
     public Long getId() {
@@ -45,14 +49,6 @@ public class Order {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getProductId() {
-        return this.productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
     }
 
     public BigDecimal getTotalPrice() {
@@ -79,16 +75,24 @@ public class Order {
         this.paymentType = paymentType;
     }
 
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(id, order.id) && Objects.equals(productId, order.productId) && Objects.equals(totalPrice, order.totalPrice) && Objects.equals(date, order.date) && Objects.equals(paymentType, order.paymentType);
+        return Objects.equals(id, order.id) && Objects.equals(totalPrice, order.totalPrice) && Objects.equals(date, order.date) && Objects.equals(paymentType, order.paymentType) && Objects.equals(products, order.products);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, productId, totalPrice, date, paymentType);
+        return Objects.hash(id, totalPrice, date, paymentType, products);
     }
 }
