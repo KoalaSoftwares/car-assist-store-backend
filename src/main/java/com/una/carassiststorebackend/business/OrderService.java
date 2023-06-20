@@ -28,7 +28,9 @@ public class OrderService {
             logger.info("Searching all orders");
         }
         Iterable<Order> list = this.orderRepository.findAll();
-
+        if (list == null) {
+            return new ArrayList<Order>();
+        }
         return IteratorUtils.toList(list.iterator());
     }
 

@@ -1,11 +1,14 @@
 package com.una.carassiststorebackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_product")
@@ -25,11 +28,12 @@ public class Product {
     @Column
     private String description;
 
-    @ManyToMany(mappedBy = "products")
-    private List<Order> orders;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
+    private Set<Order> orders = new HashSet<>();
 
     public Product() { super(); }
-    public Product(String name, BigDecimal price, String description, List<Order> orders) {
+    public Product(String name, BigDecimal price, String description, Set<Order> orders) {
         super();
         this.name = name;
         this.price = price;
@@ -69,11 +73,11 @@ public class Product {
         this.description = description;
     }
 
-    public List<Order> getOrders() {
+    public Set<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Order> orders) {
+    public void setOrders(Set<Order> orders) {
         this.orders = orders;
     }
 
@@ -82,11 +86,11 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(price, product.price) && Objects.equals(description, product.description) && Objects.equals(orders, product.orders);
+        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(price, product.price) && Objects.equals(description, product.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price, description, orders);
+        return Objects.hash(id, name, price, description);
     }
 }

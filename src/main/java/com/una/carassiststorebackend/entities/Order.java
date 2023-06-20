@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_order")
@@ -25,21 +23,26 @@ public class Order {
     @Column
     private String paymentType;
 
-    @ManyToMany
+    @NotBlank
+    @Column
+    private String userName;
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "order_product",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
-    private List<Product> products;
+    private Set<Product> products = new HashSet<>();
 
     public Order() { super(); }
 
-    public Order(BigDecimal totalPrice, Date date, String paymentType, List<Product> products) {
+    public Order(BigDecimal totalPrice, Date date, String paymentType, String userName, Set<Product> products) {
         super();
         this.totalPrice = totalPrice;
         this.date = date;
         this.paymentType = paymentType;
+        this.userName = userName;
         this.products = products;
     }
 
@@ -75,11 +78,19 @@ public class Order {
         this.paymentType = paymentType;
     }
 
-    public List<Product> getProducts() {
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Set<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(Set<Product> products) {
         this.products = products;
     }
 
@@ -88,11 +99,11 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(id, order.id) && Objects.equals(totalPrice, order.totalPrice) && Objects.equals(date, order.date) && Objects.equals(paymentType, order.paymentType) && Objects.equals(products, order.products);
+        return Objects.equals(id, order.id) && Objects.equals(totalPrice, order.totalPrice) && Objects.equals(date, order.date) && Objects.equals(paymentType, order.paymentType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, totalPrice, date, paymentType, products);
+        return Objects.hash(id, totalPrice, date, paymentType);
     }
 }
