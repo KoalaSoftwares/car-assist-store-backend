@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "order")
+@CrossOrigin(origins = "*", allowedHeaders = {"Authorization", "Content-Type"})
 public class OrderController {
     private final OrderService orderService;
 
