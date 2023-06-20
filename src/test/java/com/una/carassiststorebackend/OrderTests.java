@@ -13,7 +13,9 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -42,18 +44,18 @@ public class OrderTests {
     @Test
     public void test1Creation() throws ParseException {
         LOGGER.info("Creating objects...");
-        List<Product> products = new ArrayList<>();
-        Product product1 = new Product("Wax", BigDecimal.valueOf(32.45), "Wax to polish car", new ArrayList<>());
+        Set<Product> products = new HashSet<>();
+        Product product1 = new Product("Wax", BigDecimal.valueOf(32.45), "Wax to polish car", new HashSet<>());
         products.add(product1);
         productRepository.save(product1);
 
-        Order o1 = new Order(BigDecimal.valueOf(50.60), df.parse("05/06/2023"), "Debit", products);
+        Order o1 = new Order(BigDecimal.valueOf(50.60), df.parse("05/06/2023"), "Debit", "Henrique", products);
         repository.save(o1);
 
-        Order o2 = new Order(BigDecimal.valueOf(50.69), df.parse("10/09/2023"), "Credit", products);
+        Order o2 = new Order(BigDecimal.valueOf(50.69), df.parse("10/09/2023"), "Credit", "Caio", products);
         repository.save(o2);
 
-        Order o3 = new Order(BigDecimal.valueOf(50.68), df.parse("30/12/2022"), "Cash", products);
+        Order o3 = new Order(BigDecimal.valueOf(50.68), df.parse("30/12/2022"), "Cash", "Lucas", products);
         repository.save(o3);
 
         LOGGER.info("Searching all...");

@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.FixMethodOrder;
@@ -37,13 +38,13 @@ public class ProductTests {
     @Test
     public void test1Creation() throws  ParseException {
         LOGGER.info("Creating objects...");
-        Product p1 = new Product("Blue Wax", BigDecimal.valueOf(33.45), "Blue Wax to polish car", new ArrayList<>());
+        Product p1 = new Product("Blue Wax", BigDecimal.valueOf(33.45), "Blue Wax to polish car", new HashSet<>());
         repository.save(p1);
 
-        Product p2 = new Product("Glass Cleaner", BigDecimal.valueOf(90.66), "Glass cleaner", new ArrayList<>());
+        Product p2 = new Product("Glass Cleaner", BigDecimal.valueOf(90.66), "Glass cleaner", new HashSet<>());
         repository.save(p2);
 
-        Product p3 = new Product("Plastic Restorers", BigDecimal.valueOf(12.33), "Plastic restorers", new ArrayList<>());
+        Product p3 = new Product("Plastic Restorers", BigDecimal.valueOf(12.33), "Plastic restorers", new HashSet<>());
         repository.save(p3);
 
         LOGGER.info("Searching all...");
