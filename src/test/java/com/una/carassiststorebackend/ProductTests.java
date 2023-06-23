@@ -4,6 +4,7 @@ import com.una.carassiststorebackend.entities.Order;
 import com.una.carassiststorebackend.entities.Product;
 import com.una.carassiststorebackend.repositories.OrderRepository;
 import com.una.carassiststorebackend.repositories.ProductRepository;
+import com.una.carassiststorebackend.repositories.S3BucketConfig;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -38,13 +39,13 @@ public class ProductTests {
     @Test
     public void test1Creation() throws  ParseException {
         LOGGER.info("Creating objects...");
-        Product p1 = new Product("Blue Wax", BigDecimal.valueOf(33.45), "Blue Wax to polish car", new HashSet<>());
+        Product p1 = new Product("Blue Wax", BigDecimal.valueOf(33.45), "Blue Wax to polish car", null, new HashSet<>());
         repository.save(p1);
 
-        Product p2 = new Product("Glass Cleaner", BigDecimal.valueOf(90.66), "Glass cleaner", new HashSet<>());
+        Product p2 = new Product("Glass Cleaner", BigDecimal.valueOf(90.66), "Glass cleaner", null, new HashSet<>());
         repository.save(p2);
 
-        Product p3 = new Product("Plastic Restorers", BigDecimal.valueOf(12.33), "Plastic restorers", new HashSet<>());
+        Product p3 = new Product("Plastic Restorers", BigDecimal.valueOf(12.33), "Plastic restorers", null, new HashSet<>());
         repository.save(p3);
 
         LOGGER.info("Searching all...");

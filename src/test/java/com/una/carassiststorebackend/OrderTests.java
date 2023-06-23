@@ -45,7 +45,7 @@ public class OrderTests {
     public void test1Creation() throws ParseException {
         LOGGER.info("Creating objects...");
         Set<Product> products = new HashSet<>();
-        Product product1 = new Product("Wax", BigDecimal.valueOf(32.45), "Wax to polish car", new HashSet<>());
+        Product product1 = new Product("Wax", BigDecimal.valueOf(32.45), "Wax to polish car", null, new HashSet<>());
         products.add(product1);
         productRepository.save(product1);
 
