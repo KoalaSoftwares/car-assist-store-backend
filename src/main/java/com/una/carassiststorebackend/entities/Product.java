@@ -1,6 +1,7 @@
 package com.una.carassiststorebackend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -28,16 +29,21 @@ public class Product {
     @Column
     private String description;
 
+    @Nullable
+    @Column
+    private String imgUrl;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
     private Set<Order> orders = new HashSet<>();
 
     public Product() { super(); }
-    public Product(String name, BigDecimal price, String description, Set<Order> orders) {
+    public Product(String name, BigDecimal price, String description, String imgUrl, Set<Order> orders) {
         super();
         this.name = name;
         this.price = price;
         this.description = description;
+        this.imgUrl = imgUrl;
         this.orders = orders;
     }
 
@@ -73,6 +79,14 @@ public class Product {
         this.description = description;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
     public Set<Order> getOrders() {
         return orders;
     }
@@ -86,11 +100,11 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(price, product.price) && Objects.equals(description, product.description);
+        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(price, product.price) && Objects.equals(description, product.description) && Objects.equals(imgUrl, product.imgUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price, description);
+        return Objects.hash(id, name, price, description, imgUrl);
     }
 }

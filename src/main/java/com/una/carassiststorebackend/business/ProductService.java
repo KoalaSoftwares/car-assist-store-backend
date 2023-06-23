@@ -3,6 +3,7 @@ package com.una.carassiststorebackend.business;
 import com.una.carassiststorebackend.entities.Order;
 import com.una.carassiststorebackend.entities.Product;
 import com.una.carassiststorebackend.repositories.ProductRepository;
+import com.una.carassiststorebackend.repositories.S3BucketConfig;
 import org.apache.commons.collections4.IteratorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +20,11 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    ProductService(ProductRepository productRepository) {
+    private final S3BucketConfig s3BucketConfig;
+
+    ProductService(ProductRepository productRepository, S3BucketConfig s3BucketConfig) {
         this.productRepository = productRepository;
+        this.s3BucketConfig = s3BucketConfig;
     }
 
     public List<Product> getProducts() {
@@ -62,6 +66,17 @@ public class ProductService {
     }
 
     public Product saveProduct(Product product) {
+        String imgUrl = null;
+        switch (product.getName()) {
+            case "Cera Blend" -> imgUrl = s3BucketConfig.getFileUrl("cera-blend.png", "car-assist-store-bucket");
+            case "RestauraX" -> imgUrl = s3BucketConfig.getFileUrl("restaurax.png", "car-assist-store-bucket");
+            case "V Floc" -> imgUrl = s3BucketConfig.getFileUrl("v-floc.png", "car-assist-store-bucket");
+        }
+
+        if (product.getImgUrl() == null) {
+            product.setImgUrl(imgUrl);
+        }
+
         if(logger.isInfoEnabled()){
             logger.info("Saving product with details {}",product.toString());
         }
